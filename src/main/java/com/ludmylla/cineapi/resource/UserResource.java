@@ -5,6 +5,7 @@ import com.ludmylla.cineapi.model.User;
 import com.ludmylla.cineapi.model.dto.UserCreateDto;
 import com.ludmylla.cineapi.model.dto.UserListDto;
 import com.ludmylla.cineapi.model.dto.UserLoginDto;
+import com.ludmylla.cineapi.model.dto.UserUpdateDto;
 import com.ludmylla.cineapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,17 @@ public class UserResource {
             User user = UserMapper.INSTANCE.toUser(userCreateDto);
             userService.create(user);
             return ResponseEntity.status(HttpStatus.CREATED).build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody UserUpdateDto userUpdateDto){
+        try{
+            User user = UserMapper.INSTANCE.toUser(userUpdateDto);
+            userService.update(user);
+            return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }

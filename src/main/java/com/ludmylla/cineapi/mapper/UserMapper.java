@@ -1,10 +1,7 @@
 package com.ludmylla.cineapi.mapper;
 
 import com.ludmylla.cineapi.model.User;
-import com.ludmylla.cineapi.model.dto.UserCpfDto;
-import com.ludmylla.cineapi.model.dto.UserCreateDto;
-import com.ludmylla.cineapi.model.dto.UserListDto;
-import com.ludmylla.cineapi.model.dto.UserLoginDto;
+import com.ludmylla.cineapi.model.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -50,6 +47,9 @@ public interface UserMapper {
     @Mapping(target = "city", ignore = true)
     @Mapping(target = "role", ignore = true)
     User toUser(UserCpfDto source);
+
+    @Mapping(target = "role", source = "roleCreateDtos")
+    User toUser (UserUpdateDto source);
 
 }
 

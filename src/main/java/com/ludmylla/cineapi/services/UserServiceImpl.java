@@ -71,6 +71,12 @@ public class UserServiceImpl implements  UserService{
     }
 
     @Override
+    public void update(User user){
+        validationUpdate(user);
+        userRepository.save(user);
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -90,6 +96,12 @@ public class UserServiceImpl implements  UserService{
     }
 
     private void validationCreate(User user){
+        getRoles(user);
+        getPasswordToEncrypt(user);
+    }
+
+    private void validationUpdate(User user){
+        findById(user.getId());
         getRoles(user);
         getPasswordToEncrypt(user);
     }
@@ -137,5 +149,10 @@ public class UserServiceImpl implements  UserService{
     private Role getRoleAdmin(){
         Role role = roleRepository.findByName(RoleName.ROLE_ADMIN);
         return role;
+    }
+
+    private User findById(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User does not exist."));
     }
 }

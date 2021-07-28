@@ -11,6 +11,8 @@ public interface UserService {
 
     void create(User user);
 
+    void update(User user);
+
     List<User> findAll();
 
     User findByCpf(String cpf);
