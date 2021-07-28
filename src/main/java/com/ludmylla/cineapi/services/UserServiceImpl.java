@@ -75,6 +75,16 @@ public class UserServiceImpl implements  UserService{
         return userRepository.findAll();
     }
 
+    @Override
+    public User findByCpf(String cpf){
+        return userRepository.findByCpf(cpf);
+    }
+
+    @Override
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
     private User getRoles(User user){
         List<Role> rolesAdd = new ArrayList<>();
         for(Role role: user.getRole()){

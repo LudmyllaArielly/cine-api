@@ -52,4 +52,26 @@ public class UserResource {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("findUserByEmail/{email}")
+    public ResponseEntity<UserListDto> findUserByEmail(@PathVariable("email") String email){
+        try{
+            User user = userService.findByEmail(email);
+            UserListDto userListDto = UserMapper.INSTANCE.toDto(user);
+            return ResponseEntity.ok(userListDto);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("findUserByCpf/{cpf}")
+    public ResponseEntity<UserListDto> findUserByCpf(@PathVariable("cpf") String cpf){
+        try{
+            User user = userService.findByCpf(cpf);
+            UserListDto userListDto = UserMapper.INSTANCE.toDto(user);
+            return ResponseEntity.ok(userListDto);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

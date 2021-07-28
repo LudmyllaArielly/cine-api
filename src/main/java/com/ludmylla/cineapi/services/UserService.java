@@ -12,4 +12,8 @@ public interface UserService {
     void create(User user);
 
     List<User> findAll();
+
+    User findByCpf(String cpf);
+
+    User findByEmail(String email);
 }
