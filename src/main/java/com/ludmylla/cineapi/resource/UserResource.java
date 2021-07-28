@@ -19,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserResource {
-    //hasAnyRole
 
     @Autowired
     private UserService userService;
