@@ -2,6 +2,8 @@ package com.ludmylla.cineapi.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ludmylla.cineapi.exceptions.AccessDeniedException;
+import com.ludmylla.cineapi.exceptions.UserNotFoundException;
 import com.ludmylla.cineapi.model.Role;
 import com.ludmylla.cineapi.model.User;
 import com.ludmylla.cineapi.model.dto.UserLoginDto;
@@ -58,15 +60,13 @@ public class UserServiceImpl implements  UserService{
         try{
             return objectMapper.writeValueAsString(token);
         }catch (JsonProcessingException e){
-            e.printStackTrace();
+            throw new AccessDeniedException("User authentication error.");
         }
-        return null;
     }
 
     @Override
     public void create(User user) {
-        getRoles(user);
-        getPasswordToEncrypt(user);
+        validationCreate(user);
         userRepository.save(user);
     }
 
@@ -77,22 +77,34 @@ public class UserServiceImpl implements  UserService{
 
     @Override
     public User findByCpf(String cpf){
-        return userRepository.findByCpf(cpf);
+        User user = userRepository.findByCpf(cpf);
+        validIfUserCpfExists(cpf);
+        return user;
     }
 
     @Override
     public User findByEmail(String email){
-        return userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
+        validIfUserEmailExists(email);
+        return user;
+    }
+
+    private void validationCreate(User user){
+        getRoles(user);
+        getPasswordToEncrypt(user);
     }
 
     private User getRoles(User user){
         List<Role> rolesAdd = new ArrayList<>();
         for(Role role: user.getRole()){
             if(role.getName().name().equals("ROLE_ADMIN")){
-                Role roleAdmin = roleRepository.findByName(RoleName.ROLE_ADMIN);
+                Role roleAdmin = getRoleAdmin();
                 rolesAdd.add(roleAdmin);
+            }else if(role.getName().name().equals("ROLE_USER")) {
+                Role roleUser = getRoleUser();
+                rolesAdd.add(roleUser);
             }else {
-                Role roleUser = roleRepository.findByName(RoleName.ROLE_USER);
+                Role roleUser = getRoleUser();
                 rolesAdd.add(roleUser);
             }
         }
@@ -103,5 +115,27 @@ public class UserServiceImpl implements  UserService{
     private void getPasswordToEncrypt(User user){
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
+    }
+
+    private void validIfUserCpfExists(String cpf){
+        if(cpf == null){
+            throw new UserNotFoundException("User does not exist.");
+        }
+    }
+
+    private void validIfUserEmailExists(String email){
+        if(email == null){
+            throw new UserNotFoundException("User does not exist.");
+        }
+    }
+
+    private Role getRoleUser(){
+        Role role = roleRepository.findByName(RoleName.ROLE_USER);
+        return role;
+    }
+
+    private Role getRoleAdmin(){
+        Role role = roleRepository.findByName(RoleName.ROLE_ADMIN);
+        return role;
     }
 }

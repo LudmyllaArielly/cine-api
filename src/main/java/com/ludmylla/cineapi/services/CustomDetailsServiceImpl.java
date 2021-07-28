@@ -1,5 +1,6 @@
 package com.ludmylla.cineapi.services;
 
+import com.ludmylla.cineapi.exceptions.UserNotFoundException;
 import com.ludmylla.cineapi.model.User;
 import com.ludmylla.cineapi.repository.UserRepository;
 import com.ludmylla.cineapi.security.UserPrincipal;
@@ -26,7 +27,7 @@ public class CustomDetailsServiceImpl implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = Optional.ofNullable(userRepository.findByEmail(email))
-                .orElseThrow(() -> new UsernameNotFoundException("User does not exist."));
+                .orElseThrow(() -> new UserNotFoundException("User does not exist."));
         return UserPrincipal.build(user);
     }
 }
