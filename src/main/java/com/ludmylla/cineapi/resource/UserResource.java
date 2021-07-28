@@ -10,6 +10,7 @@ import com.ludmylla.cineapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserResource {
+    //hasAnyRole
 
     @Autowired
     private UserService userService;
@@ -26,6 +28,8 @@ public class UserResource {
     public ResponseEntity<?> authenticateUser(@RequestBody UserLoginDto userLoginDto){
         try{
             return ResponseEntity.ok(userService.auth(userLoginDto));
+        }catch (AccessDeniedException e){
+            throw new AccessDeniedException("Unauthorized user.");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -43,6 +47,7 @@ public class UserResource {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> updateUser(@RequestBody UserUpdateDto userUpdateDto){
         try{
             User user = UserMapper.INSTANCE.toUser(userUpdateDto);
@@ -66,6 +71,7 @@ public class UserResource {
     }
 
     @GetMapping("findUserByEmail/{email}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<UserListDto> findUserByEmail(@PathVariable("email") String email){
         try{
             User user = userService.findByEmail(email);
@@ -77,6 +83,7 @@ public class UserResource {
     }
 
     @GetMapping("findUserByCpf/{cpf}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<UserListDto> findUserByCpf(@PathVariable("cpf") String cpf){
         try{
             User user = userService.findByCpf(cpf);

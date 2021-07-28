@@ -28,7 +28,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", source = "roleCreateDtos")
     List<UserListDto> toListDto(List<User> source);
-/*
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "cpf", ignore = true)
@@ -36,7 +36,7 @@ public interface UserMapper {
     @Mapping(target = "state", ignore = true)
     @Mapping(target = "city", ignore = true)
     @Mapping(target = "role", ignore = true)
-    User toUser(UserLoginDto source);*/
+    User toUser(UserLoginDto source);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", ignore = true)
