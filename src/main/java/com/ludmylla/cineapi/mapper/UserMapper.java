@@ -18,28 +18,28 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "roles", source = "roleCreateDtos")
+    @Mapping(target = "role", source = "roleCreateDtos")
     User toUser(UserListDto source);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", source = "roleCreateDtos")
+    @Mapping(target = "role", source = "roleCreateDtos")
     User toUser(UserCreateDto source);
 
-    @Mapping(target = "roleCreateDtos", source = "roles")
+    @Mapping(target = "roleCreateDtos", source = "role")
     UserListDto toDto(User source);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", source = "roleCreateDtos")
+    @Mapping(target = "role", source = "roleCreateDtos")
     List<UserListDto> toListDto(List<User> source);
-
+/*
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "cpf", ignore = true)
     @Mapping(target = "phoneNumber", ignore = true)
     @Mapping(target = "state", ignore = true)
     @Mapping(target = "city", ignore = true)
-    @Mapping(target = "roles", ignore = true)
-    User toUser(UserLoginDto source);
+    @Mapping(target = "role", ignore = true)
+    User toUser(UserLoginDto source);*/
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", ignore = true)
@@ -48,7 +48,7 @@ public interface UserMapper {
     @Mapping(target = "phoneNumber", ignore = true)
     @Mapping(target = "state", ignore = true)
     @Mapping(target = "city", ignore = true)
-    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "role", ignore = true)
     User toUser(UserCpfDto source);
 
 }
