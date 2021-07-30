@@ -1,8 +1,9 @@
 package com.ludmylla.cineapi.model;
 
+import com.ludmylla.cineapi.model.enums.Category;
+import com.ludmylla.cineapi.model.enums.StoryStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Generated;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -22,4 +23,14 @@ public class Story {
     private String description;
     private String audio;
     private Instant moment;
+
+    @ManyToOne
+    @JoinColumn(name = "PERIOD_ID")
+    private Period period;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @Enumerated(EnumType.STRING)
+    private StoryStatus storyStatus;
 }
