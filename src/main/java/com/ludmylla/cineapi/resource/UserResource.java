@@ -1,5 +1,6 @@
 package com.ludmylla.cineapi.resource;
 
+import com.ludmylla.cineapi.exceptions.UserNotFoundException;
 import com.ludmylla.cineapi.mapper.UserMapper;
 import com.ludmylla.cineapi.model.User;
 import com.ludmylla.cineapi.model.dto.UserCreateDto;
@@ -77,7 +78,7 @@ public class UserResource {
             UserListDto userListDto = UserMapper.INSTANCE.toDto(user);
             return ResponseEntity.ok(userListDto);
         }catch (Exception e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -89,7 +90,8 @@ public class UserResource {
             UserListDto userListDto = UserMapper.INSTANCE.toDto(user);
             return ResponseEntity.ok(userListDto);
         }catch (Exception e){
-            return ResponseEntity.badRequest().build();
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
         }
     }
 }

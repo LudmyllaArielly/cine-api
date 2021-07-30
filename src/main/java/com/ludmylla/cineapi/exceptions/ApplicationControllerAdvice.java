@@ -28,9 +28,11 @@ public class ApplicationControllerAdvice {
         return new ApiErros(ex);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ApiErros handleAccessDeniedException(AccessDeniedException ex) {
         return new ApiErros(ex);
     }
+
+
 }

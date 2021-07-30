@@ -11,7 +11,7 @@ public class ApiErros {
         this.erros = Arrays.asList(ex.getMessage());
     }
 
-    public ApiErros(AccessDeniedException ex){
+    public ApiErros(AccessDeniedException ex) {
         this.erros = Arrays.asList(ex.getMessage());
     }
 
