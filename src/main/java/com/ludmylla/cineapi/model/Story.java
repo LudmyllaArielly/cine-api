@@ -5,6 +5,7 @@ import com.ludmylla.cineapi.model.enums.StoryStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -13,6 +14,7 @@ import java.time.Instant;
 @Entity
 public class Story {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
