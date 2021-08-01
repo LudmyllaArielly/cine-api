@@ -24,6 +24,7 @@ public class Story {
 
     private String description;
     private String audio;
+    private String image;
     private Instant moment;
 
     @ManyToOne

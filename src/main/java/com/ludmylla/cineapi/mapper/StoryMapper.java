@@ -20,7 +20,7 @@ public interface StoryMapper {
     @Mapping( target = "audio", ignore = true)
     @Mapping( target = "storyStatus", ignore = true)
     @Mapping( target = "period", source="periodDto")
-    //@Mapping( target = "image", ignore = true)
+    @Mapping( target = "image", ignore = true)
     @Mapping( target = "moment", ignore = true)
     @Mapping( target = "user", source = "userCpfDto")
     Story toStory (StoryCreateDtO source);
@@ -40,7 +40,7 @@ public interface StoryMapper {
     @Mapping( target = "period", ignore = true)
     @Mapping( target = "category", ignore = true)
     @Mapping( target = "description", ignore = true)
-    //@Mapping( target = "image", ignore = true)
+    @Mapping( target = "image", ignore = true)
     @Mapping( target = "moment", ignore = true)
     @Mapping( target = "user", ignore = true)
     Story toStory (StoryUpdateStatusDto source);
