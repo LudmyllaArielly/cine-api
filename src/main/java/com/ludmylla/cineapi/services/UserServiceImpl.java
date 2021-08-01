@@ -62,6 +62,7 @@ public class UserServiceImpl implements  UserService{
         }catch (JsonProcessingException e){
             throw new AccessDeniedException("User authentication error.");
         }
+
     }
 
     @Override
@@ -149,4 +150,5 @@ public class UserServiceImpl implements  UserService{
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User does not exist."));
     }
+
 }
