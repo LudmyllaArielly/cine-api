@@ -15,6 +15,7 @@ import javax.annotation.processing.FilerException;
 import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class StoryServiceImpl implements  StoryService{
@@ -41,14 +42,6 @@ public class StoryServiceImpl implements  StoryService{
     private Integer size;
 
     @Override
-    public URI uploadStoryPicture(MultipartFile file) throws FilerException {
-        BufferedImage jpgImage = imageService.getJpaImageFromFile(file);
-        jpgImage = imageService.cropSquare(jpgImage);
-        jpgImage = imageService.resize(jpgImage, size);
-        String fileName = file.getName() + ".jpg";
-        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
-    }
-
     public void createStory(Story story, MultipartFile file) throws FilerException {
         getUserCpf(story);
         getPeriodStory(story);
@@ -57,6 +50,20 @@ public class StoryServiceImpl implements  StoryService{
         story.setMoment(Instant.now());
         System.out.println(story.getImage());
         storyRepository.save(story);
+    }
+
+    @Override
+    public List<Story> findAll(){
+        return storyRepository.findAll();
+    }
+
+    @Override
+    public URI uploadStoryPicture(MultipartFile file) throws FilerException {
+        BufferedImage jpgImage = imageService.getJpaImageFromFile(file);
+        jpgImage = imageService.cropSquare(jpgImage);
+        jpgImage = imageService.resize(jpgImage, size);
+        String fileName = file.getName() + ".jpg";
+        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 
     private Story getUserCpf(Story story){
