@@ -17,7 +17,6 @@ public interface StoryMapper {
     StoryMapper INSTANCE = Mappers.getMapper(StoryMapper.class);
 
     @Mapping( target = "id", ignore = true)
-    @Mapping( target = "audio", ignore = true)
     @Mapping( target = "storyStatus", ignore = true)
     @Mapping( target = "period", source="periodDto")
     @Mapping( target = "image", ignore = true)

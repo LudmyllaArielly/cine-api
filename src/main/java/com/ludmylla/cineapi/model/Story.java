@@ -4,9 +4,11 @@ import com.ludmylla.cineapi.model.enums.Category;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.persistence.*;
+import java.net.URI;
 import java.time.Instant;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -24,7 +26,7 @@ public class Story {
 
     private String description;
     private String audio;
-    private String image;
+    private URI image;
     private Instant moment;
 
     @ManyToOne
