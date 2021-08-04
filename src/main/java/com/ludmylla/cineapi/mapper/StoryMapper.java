@@ -13,7 +13,6 @@ import java.util.List;
 @Mapper(uses = {UserMapper.class, PeriodMapper.class})
 public interface StoryMapper {
 
-
     StoryMapper INSTANCE = Mappers.getMapper(StoryMapper.class);
 
     @Mapping( target = "id", ignore = true)

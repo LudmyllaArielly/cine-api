@@ -9,7 +9,6 @@ public class UserListDto {
 
     private String name;
     private String email;
-    private String password;
     private String cpf;
     private String phoneNumber;
     private String city;

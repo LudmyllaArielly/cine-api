@@ -26,6 +26,7 @@ public interface UserMapper {
     UserListDto toDto(User source);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping( target = "password", ignore = true)
     @Mapping(target = "role", source = "roleCreateDtos")
     List<UserListDto> toListDto(List<User> source);
 

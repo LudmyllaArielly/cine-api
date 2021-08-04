@@ -87,7 +87,7 @@ public class StoryServiceImpl implements  StoryService{
     @Transactional
     @Override
     public void updateStoryStatus(Story story) throws StoryNotFoundException{
-        validUpdateStoryStatus(story);
+        validationsUpdateStatus(story);
         storyRepository.save(story);
     }
 
@@ -100,7 +100,7 @@ public class StoryServiceImpl implements  StoryService{
         return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 
-    private void validationsUpdateStatus(Story story){
+    private void validationsUpdateStatus(Story story) throws StoryNotFoundException{
         getStory(story);
         validUpdateStoryStatus(story);
     }
