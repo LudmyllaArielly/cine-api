@@ -1,5 +1,6 @@
 package com.ludmylla.cineapi.services;
 
+import com.ludmylla.cineapi.exceptions.StoryNotFoundException;
 import com.ludmylla.cineapi.model.Period;
 import com.ludmylla.cineapi.model.Story;
 import com.ludmylla.cineapi.model.User;
@@ -7,9 +8,12 @@ import com.ludmylla.cineapi.model.enums.Category;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
 import com.ludmylla.cineapi.repository.PeriodRepository;
 import com.ludmylla.cineapi.repository.StoryRepository;
+import com.ludmylla.cineapi.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.processing.FilerException;
@@ -82,6 +86,14 @@ public class StoryServiceImpl implements  StoryService{
                 .collect(Collectors.toList());
     }
 
+    @Modifying
+    @Transactional
+    @Override
+    public void updateStoryStatus(Story story) throws StoryNotFoundException{
+        validUpdateStoryStatus(story);
+        storyRepository.save(story);
+    }
+
     @Override
     public URI uploadStoryPicture(MultipartFile file) throws FilerException {
         BufferedImage jpgImage = imageService.getJpaImageFromFile(file);
@@ -89,6 +101,11 @@ public class StoryServiceImpl implements  StoryService{
         jpgImage = imageService.resize(jpgImage, size);
         String fileName = file.getName() + ".jpg";
         return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+    }
+
+    private void validationsUpdateStatus(Story story){
+        getStory(story);
+        validUpdateStoryStatus(story);
     }
 
     private Story getUserCpf(Story story){
@@ -103,6 +120,11 @@ public class StoryServiceImpl implements  StoryService{
         validPeriodExist(period);
         story.setPeriod(period);
         return story;
+    }
+
+    private Story findById(Long id){
+        return storyRepository.findById(id)
+                .orElseThrow(() -> new StoryNotFoundException("Story does not exist."));
     }
 
     private void validStoryExist(List<Story> story){
@@ -120,6 +142,34 @@ public class StoryServiceImpl implements  StoryService{
     private void validPeriodExist(Period period){
         if(period == null){
             throw new IllegalArgumentException("Period does not exist");
+        }
+    }
+
+    private Story getStory(Story story) throws StoryNotFoundException{
+        Story storyGetData = findById(story.getId());
+        story.setCategory(storyGetData.getCategory());
+        story.setPeriod(storyGetData.getPeriod());
+        story.setMoment(storyGetData.getMoment());
+        story.setDescription(storyGetData.getDescription());
+        story.setImage(storyGetData.getImage());
+        story.setAudio(storyGetData.getAudio());
+        story.setUser(storyGetData.getUser());
+        return story;
+    }
+
+    private void validUpdateStoryStatus(Story story) {
+        Story stories = findById(story.getId());
+        Boolean storyIsCreated = stories.getStoryStatus().equals(StoryStatus.CREATED);
+        Boolean storyIsApproved = stories.getStoryStatus().equals(StoryStatus.APPROVED);
+
+        if(storyIsCreated) {
+            if(Utils.storyIsDifferentFromApprovedOrNotApproved(story)) {
+                throw new IllegalArgumentException("You cannot cancel or create an already created story. Available options: APPROVED, NOT_APPROVED");
+            }
+        }else if(storyIsApproved) {
+            if(Utils.storyIsDiferrentCFromCanceled(story)) {
+                throw new IllegalArgumentException("An approved story can only be canceled. Available options: CANCELED");
+            }
         }
     }
 }

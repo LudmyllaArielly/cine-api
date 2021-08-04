@@ -21,6 +21,8 @@ public interface StoryService {
 
     List<Story> findStoryByStatus(StoryStatus storyStatus);
 
+    void updateStoryStatus(Story story);
+
     URI uploadStoryPicture(MultipartFile file) throws FilerException;
 
 
