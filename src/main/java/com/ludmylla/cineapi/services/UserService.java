@@ -18,4 +18,6 @@ public interface UserService {
     User findByCpf(String cpf);
 
     User findByEmail(String email);
+
+    void validUserExist(User user);
 }

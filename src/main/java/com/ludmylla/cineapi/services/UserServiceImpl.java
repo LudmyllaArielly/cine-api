@@ -62,7 +62,6 @@ public class UserServiceImpl implements  UserService{
         }catch (JsonProcessingException e){
             throw new AccessDeniedException("User authentication error.");
         }
-
     }
 
     @Override
@@ -94,6 +93,13 @@ public class UserServiceImpl implements  UserService{
         User user = userRepository.findByEmail(email);
         validIfUserExists(user);
         return user;
+    }
+
+    @Override
+    public void validUserExist(User user){
+        if(user == null){
+            throw new UserNotFoundException("User does not exist");
+        }
     }
 
     private void validationCreate(User user){

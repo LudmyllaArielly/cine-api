@@ -49,11 +49,8 @@ public class StoryServiceImpl implements  StoryService{
 
     @Override
     public void createStory(Story story, MultipartFile file) throws FilerException {
-        getUserCpf(story);
-        getPeriodStory(story);
+        validationsCreateStory(story);
         story.setImage(uploadStoryPicture(file));
-        story.setStoryStatus(StoryStatus.CREATED);
-        story.setMoment(Instant.now());
         System.out.println(story.getImage());
         storyRepository.save(story);
     }
@@ -64,21 +61,21 @@ public class StoryServiceImpl implements  StoryService{
     }
 
     @Override
-    public List<Story> findStoryByPeriod(String periodOfStory){
+    public List<Story> findStoryByPeriod(String periodOfStory) throws StoryNotFoundException{
         List<Story> story = storyRepository.findStoryByPeriod(periodOfStory);
         validStoryExist(story);
         return story;
     }
 
     @Override
-    public List<Story> findStoryByCategory(Category category){
+    public List<Story> findStoryByCategory(Category category) throws StoryNotFoundException{
         List<Story> story = storyRepository.findStoryByCategory(category);
         validStoryExist(story);
         return story;
     }
 
     @Override
-    public List<Story> findStoryByStatus(StoryStatus storyStatus){
+    public List<Story> findStoryByStatus(StoryStatus storyStatus) throws StoryNotFoundException{
         List<Story> story = storyRepository.findAll();
         validStoryExist(story);
         return story.stream()
@@ -108,9 +105,15 @@ public class StoryServiceImpl implements  StoryService{
         validUpdateStoryStatus(story);
     }
 
+    private void validationsCreateStory(Story story){
+        getUserCpf(story);
+        getPeriodStory(story);
+        setStory(story);
+    }
+
     private Story getUserCpf(Story story){
         User user = userService.findByCpf(story.getUser().getCpf());
-        validUserExist(user);
+        userService.validUserExist(user);
         story.setUser(user);
         return story;
     }
@@ -122,6 +125,11 @@ public class StoryServiceImpl implements  StoryService{
         return story;
     }
 
+    private void setStory(Story story){
+        story.setStoryStatus(StoryStatus.CREATED);
+        story.setMoment(Instant.now());
+    }
+
     private Story findById(Long id){
         return storyRepository.findById(id)
                 .orElseThrow(() -> new StoryNotFoundException("Story does not exist."));
@@ -129,13 +137,7 @@ public class StoryServiceImpl implements  StoryService{
 
     private void validStoryExist(List<Story> story){
         if(story == null){
-            throw new IllegalArgumentException("Story does not exist");
-        }
-    }
-
-    private void validUserExist(User user){
-        if(user == null){
-            throw new IllegalArgumentException("User does not exist");
+            throw new StoryNotFoundException("Story does not exist");
         }
     }
 
