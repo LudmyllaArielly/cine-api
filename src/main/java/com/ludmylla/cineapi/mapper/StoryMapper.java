@@ -3,6 +3,7 @@ package com.ludmylla.cineapi.mapper;
 import com.ludmylla.cineapi.model.Story;
 import com.ludmylla.cineapi.model.dto.StoryCreateDtO;
 import com.ludmylla.cineapi.model.dto.StoryListDto;
+import com.ludmylla.cineapi.model.dto.StoryUpdateDto;
 import com.ludmylla.cineapi.model.dto.StoryUpdateStatusDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -42,5 +43,12 @@ public interface StoryMapper {
     @Mapping( target = "moment", ignore = true)
     @Mapping( target = "user", ignore = true)
     Story toStory (StoryUpdateStatusDto source);
+
+    @Mapping( target = "user", ignore = true)
+    @Mapping( target = "storyStatus", ignore = true)
+    @Mapping( target = "moment", ignore = true)
+    @Mapping( target = "image", ignore = true)
+    @Mapping( target = "period", source="periodDto")
+    Story toStory (StoryUpdateDto source);
 
 }

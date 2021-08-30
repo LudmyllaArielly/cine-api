@@ -5,6 +5,7 @@ import com.ludmylla.cineapi.mapper.StoryMapper;
 import com.ludmylla.cineapi.model.Story;
 import com.ludmylla.cineapi.model.dto.StoryCreateDtO;
 import com.ludmylla.cineapi.model.dto.StoryListDto;
+import com.ludmylla.cineapi.model.dto.StoryUpdateDto;
 import com.ludmylla.cineapi.model.dto.StoryUpdateStatusDto;
 import com.ludmylla.cineapi.model.enums.Category;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
@@ -81,6 +82,29 @@ public class StoryResource {
             return ResponseEntity.noContent().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateStory (@RequestBody StoryUpdateDto storyUpdateDto){
+        try {
+            Story story = StoryMapper.INSTANCE.toStory(storyUpdateDto);
+            storyService.updateStory(story);
+            return ResponseEntity.ok().build();
+        } catch (StoryNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteStory(@PathVariable("id") Long id){
+        try{
+            storyService.deleteStory(id);
+            return ResponseEntity.noContent().build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
         }
     }
 

@@ -99,9 +99,9 @@ public class StoryServiceImpl implements  StoryService{
 
     @Override
     public void deleteStory(Long id){
-        Optional<Story> story = storyRepository.findById(id);
-        Story stories = story.get();
-        storyRepository.delete(stories);
+        Story story = findById(id);
+        //Story stories = story.get();
+        storyRepository.delete(story);
     }
 
     @Override
