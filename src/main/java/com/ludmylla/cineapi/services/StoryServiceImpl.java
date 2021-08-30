@@ -41,9 +41,6 @@ public class StoryServiceImpl implements  StoryService{
     @Autowired
     private ImageService imageService;
 
-    @Value("${img.prefix}")
-    private String prefix;
-
     @Value("${img.size}")
     private Integer size;
 
@@ -91,12 +88,20 @@ public class StoryServiceImpl implements  StoryService{
         storyRepository.save(story);
     }
 
+    @Modifying
+    @Transactional
+    @Override
+    public void updateStory(Story story) throws StoryNotFoundException {
+        validationsUpdateStory(story);
+        storyRepository.save(story);
+    }
+
     @Override
     public URI uploadStoryPicture(MultipartFile file) throws FilerException {
         BufferedImage jpgImage = imageService.getJpaImageFromFile(file);
         jpgImage = imageService.cropSquare(jpgImage);
         jpgImage = imageService.resize(jpgImage, size);
-        String fileName = file.getName() + ".jpg";
+        String fileName = file.getOriginalFilename() + ".jpg";
         return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 
@@ -109,6 +114,11 @@ public class StoryServiceImpl implements  StoryService{
         getUserCpf(story);
         getPeriodStory(story);
         setStory(story);
+    }
+
+    private void validationsUpdateStory(Story story){
+        getStoryUpdate(story);
+        getPeriodStory(story);
     }
 
     private Story getUserCpf(Story story){
@@ -130,7 +140,7 @@ public class StoryServiceImpl implements  StoryService{
         story.setMoment(Instant.now());
     }
 
-    private Story findById(Long id){
+    private Story findById(Long id) throws StoryNotFoundException{
         return storyRepository.findById(id)
                 .orElseThrow(() -> new StoryNotFoundException("Story does not exist."));
     }
@@ -145,6 +155,13 @@ public class StoryServiceImpl implements  StoryService{
         if(period == null){
             throw new IllegalArgumentException("Period does not exist");
         }
+    }
+
+    private void getStoryUpdate(Story story) throws StoryNotFoundException{
+        Story storyData = findById(story.getId());
+        story.setStoryStatus(storyData.getStoryStatus());
+        story.setMoment(storyData.getMoment());
+        story.setUser(storyData.getUser());
     }
 
     private Story getStory(Story story) throws StoryNotFoundException{
