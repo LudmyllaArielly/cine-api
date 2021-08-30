@@ -25,7 +25,7 @@ public interface StoryService {
 
     void updateStory(Story story);
 
-    void deleteStory(Story story);
+    void deleteStory(Long id);
 
     URI uploadStoryPicture(MultipartFile file) throws FilerException;
 

@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,6 +95,13 @@ public class StoryServiceImpl implements  StoryService{
     public void updateStory(Story story) throws StoryNotFoundException {
         validationsUpdateStory(story);
         storyRepository.save(story);
+    }
+
+    @Override
+    public void deleteStory(Long id){
+        Optional<Story> story = storyRepository.findById(id);
+        Story stories = story.get();
+        storyRepository.delete(stories);
     }
 
     @Override
