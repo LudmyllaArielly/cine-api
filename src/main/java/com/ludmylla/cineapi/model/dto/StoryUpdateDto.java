@@ -15,6 +15,6 @@ public class StoryUpdateDto {
     private String image;
     private String audio;
     private Category category;
-    private PeriodDto periodDto;
+    private PeriodCreateAndListDto periodDto;
 
 }

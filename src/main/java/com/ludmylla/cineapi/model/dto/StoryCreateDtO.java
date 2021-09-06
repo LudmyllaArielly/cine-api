@@ -4,7 +4,6 @@ import com.ludmylla.cineapi.model.enums.Category;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class StoryCreateDtO {
@@ -19,6 +18,6 @@ public class StoryCreateDtO {
 
     private Category category;
 
-    private PeriodDto periodDto;
+    private PeriodCreateAndListDto periodDto;
 
 }
