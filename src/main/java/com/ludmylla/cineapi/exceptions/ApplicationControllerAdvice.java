@@ -28,6 +28,24 @@ public class ApplicationControllerAdvice {
         return new ApiErros(ex);
     }
 
+    @ExceptionHandler(StoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErros handleStoryNotFoundException(StoryNotFoundException ex) {
+        return new ApiErros(ex);
+    }
+
+    @ExceptionHandler(PeriodNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErros handlePeriodNotFoundException(PeriodNotFoundException ex) {
+        return new ApiErros(ex);
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErros handleCategoryNotFoundException(CategoryNotFoundException ex) {
+        return new ApiErros(ex);
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ApiErros handleAccessDeniedException(AccessDeniedException ex) {

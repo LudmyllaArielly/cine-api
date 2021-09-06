@@ -11,6 +11,18 @@ public class ApiErros {
         this.erros = Arrays.asList(ex.getMessage());
     }
 
+    public ApiErros(StoryNotFoundException ex){
+        this.erros = Arrays.asList(ex.getMessage());
+    }
+
+    public ApiErros(PeriodNotFoundException ex){
+        this.erros = Arrays.asList(ex.getMessage());
+    }
+
+    public ApiErros(CategoryNotFoundException ex){
+        this.erros = Arrays.asList(ex.getMessage());
+    }
+
     public ApiErros(AccessDeniedException ex) {
         this.erros = Arrays.asList(ex.getMessage());
     }
