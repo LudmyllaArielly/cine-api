@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.processing.FilerException;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +31,7 @@ public class StoryServiceImpl implements  StoryService{
     private PeriodRepository periodRepository;
 
     @Override
-    public void createStory(Story story, MultipartFile file) throws FilerException {
+    public void createStory(Story story) {
         validationsCreateStory(story);
         System.out.println(story.getImage());
         storyRepository.save(story);
