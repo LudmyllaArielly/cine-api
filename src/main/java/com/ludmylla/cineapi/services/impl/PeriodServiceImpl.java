@@ -33,15 +33,25 @@ public class PeriodServiceImpl implements PeriodService {
     }
 
     @Override
-    public void updatePeriod(Period period) {
+    public void updatePeriod(Period period) throws PeriodNotFoundException{
+        verifyIfPeriodExists(period.getId());
         Period periodExist = findById(period.getId());
         periodRepository.save(period);
     }
 
     @Override
     public void deletePeriod(Long id) {
+        verifyIfPeriodExists(id);
         Period period = findById(id);
         periodRepository.delete(period);
+
+    }
+
+    private void verifyIfPeriodExists(Long id){
+        Period period = findById(id);
+        if(period == null){
+            throw new PeriodNotFoundException("Period does not exist");
+        }
     }
 
 }

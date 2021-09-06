@@ -1,5 +1,6 @@
 package com.ludmylla.cineapi.resource;
 
+import com.ludmylla.cineapi.exceptions.PeriodNotFoundException;
 import com.ludmylla.cineapi.mapper.PeriodMapper;
 import com.ludmylla.cineapi.model.Period;
 import com.ludmylla.cineapi.model.dto.PeriodCreateAndListDto;
@@ -40,22 +41,15 @@ public class PeriodResource {
 
     @PutMapping
     public ResponseEntity<?> updatePeriod(@Valid @RequestBody PeriodUpdateDto periodUpdateDto){
-        try {
-            Period period = PeriodMapper.INSTANCE.toPeriod(periodUpdateDto);
-            periodService.updatePeriod(period);
-            return ResponseEntity.ok().build();
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+        Period period = PeriodMapper.INSTANCE.toPeriod(periodUpdateDto);
+        periodService.updatePeriod(period);
+        return ResponseEntity.ok().build();
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePeriod(@PathVariable("id") Long id){
-        try {
-            periodService.deletePeriod(id);
-            return ResponseEntity.noContent().build();
-        }catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+        periodService.deletePeriod(id);
+        return ResponseEntity.noContent().build();
     }
 }
