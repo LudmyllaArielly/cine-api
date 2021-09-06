@@ -6,7 +6,6 @@ import com.ludmylla.cineapi.model.enums.StoryStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.processing.FilerException;
-import java.net.URI;
 import java.util.List;
 
 public interface StoryService {
@@ -26,8 +25,5 @@ public interface StoryService {
     void updateStory(Story story);
 
     void deleteStory(Long id);
-
-    URI uploadStoryPicture(MultipartFile file) throws FilerException;
-
 
 }

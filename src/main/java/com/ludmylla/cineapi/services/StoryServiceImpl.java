@@ -10,18 +10,14 @@ import com.ludmylla.cineapi.repository.PeriodRepository;
 import com.ludmylla.cineapi.repository.StoryRepository;
 import com.ludmylla.cineapi.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.processing.FilerException;
-import java.awt.image.BufferedImage;
-import java.net.URI;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,19 +32,9 @@ public class StoryServiceImpl implements  StoryService{
     @Autowired
     private PeriodRepository periodRepository;
 
-    @Autowired
-    private S3Service s3Service;
-
-    @Autowired
-    private ImageService imageService;
-
-    @Value("${img.size}")
-    private Integer size;
-
     @Override
     public void createStory(Story story, MultipartFile file) throws FilerException {
         validationsCreateStory(story);
-        story.setImage(uploadStoryPicture(file));
         System.out.println(story.getImage());
         storyRepository.save(story);
     }
@@ -102,15 +88,6 @@ public class StoryServiceImpl implements  StoryService{
         Story story = findById(id);
         //Story stories = story.get();
         storyRepository.delete(story);
-    }
-
-    @Override
-    public URI uploadStoryPicture(MultipartFile file) throws FilerException {
-        BufferedImage jpgImage = imageService.getJpaImageFromFile(file);
-        jpgImage = imageService.cropSquare(jpgImage);
-        jpgImage = imageService.resize(jpgImage, size);
-        String fileName = file.getOriginalFilename() + ".jpg";
-        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 
     private void validationsUpdateStatus(Story story) throws StoryNotFoundException{
