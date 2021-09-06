@@ -2,7 +2,7 @@ package com.ludmylla.cineapi.config;
 
 import com.ludmylla.cineapi.security.AuthEntryPointJwt;
 import com.ludmylla.cineapi.security.AuthTokenFilter;
-import com.ludmylla.cineapi.services.CustomDetailsServiceImpl;
+import com.ludmylla.cineapi.services.impl.CustomDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration

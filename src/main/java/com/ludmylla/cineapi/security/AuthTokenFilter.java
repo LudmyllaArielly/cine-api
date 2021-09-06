@@ -1,6 +1,6 @@
 package com.ludmylla.cineapi.security;
 
-import com.ludmylla.cineapi.services.CustomDetailsServiceImpl;
+import com.ludmylla.cineapi.services.impl.CustomDetailsServiceImpl;
 import com.ludmylla.cineapi.utils.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

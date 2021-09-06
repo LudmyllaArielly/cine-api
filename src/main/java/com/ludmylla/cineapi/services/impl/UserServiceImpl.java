@@ -1,4 +1,4 @@
-package com.ludmylla.cineapi.services;
+package com.ludmylla.cineapi.services.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +12,7 @@ import com.ludmylla.cineapi.repository.RoleRepository;
 import com.ludmylla.cineapi.repository.UserRepository;
 import com.ludmylla.cineapi.security.TokenProvider;
 import com.ludmylla.cineapi.security.UserPrincipal;
+import com.ludmylla.cineapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class UserServiceImpl implements  UserService{
+public class UserServiceImpl implements UserService {
 
     private AuthenticationManager authenticationManager;
 

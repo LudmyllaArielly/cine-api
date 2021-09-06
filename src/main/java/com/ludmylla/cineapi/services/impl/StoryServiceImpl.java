@@ -1,4 +1,4 @@
-package com.ludmylla.cineapi.services;
+package com.ludmylla.cineapi.services.impl;
 
 import com.ludmylla.cineapi.exceptions.StoryNotFoundException;
 import com.ludmylla.cineapi.model.Period;
@@ -8,6 +8,8 @@ import com.ludmylla.cineapi.model.enums.Category;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
 import com.ludmylla.cineapi.repository.PeriodRepository;
 import com.ludmylla.cineapi.repository.StoryRepository;
+import com.ludmylla.cineapi.services.StoryService;
+import com.ludmylla.cineapi.services.UserService;
 import com.ludmylla.cineapi.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StoryServiceImpl implements  StoryService{
+public class StoryServiceImpl implements StoryService {
 
     @Autowired
     private StoryRepository storyRepository;

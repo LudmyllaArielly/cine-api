@@ -1,4 +1,4 @@
-package com.ludmylla.cineapi.services;
+package com.ludmylla.cineapi.services.impl;
 
 import com.ludmylla.cineapi.exceptions.UserNotFoundException;
 import com.ludmylla.cineapi.model.User;
