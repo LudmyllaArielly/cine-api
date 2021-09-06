@@ -12,7 +12,7 @@ public class StoryListDto {
 
     private String description;
     private String audio;
-    private URI image;
+    private String image;
     private Instant moment;
     private Category category;
     private StoryStatus storyStatus;

@@ -12,6 +12,7 @@ public class StoryUpdateDto {
 
     private Long id;
     private String description;
+    private String image;
     private String audio;
     private Category category;
     private PeriodDto periodDto;

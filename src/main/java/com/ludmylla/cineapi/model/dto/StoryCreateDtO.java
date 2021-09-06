@@ -10,6 +10,7 @@ public class StoryCreateDtO {
 
     @NotBlank(message = "{required.description}")
     private String description;
+    private String image;
     private String audio;
     private UserCpfDto userCpfDto;
     private Category category;
