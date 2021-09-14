@@ -42,35 +42,23 @@ public class StoryResource {
 
     @GetMapping("/findStoryByPeriod/{periodOfStory}")
     public ResponseEntity<List<StoryListDto>> findStoryByPeriod(@PathVariable("periodOfStory") String periodOfStory) throws StoryNotFoundException {
-        try{
-            List<Story> story = storyService.findStoryByPeriod(periodOfStory);
-            List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
-            return ResponseEntity.ok(storyListDtos);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+        List<Story> story = storyService.findStoryByPeriod(periodOfStory);
+        List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
+        return ResponseEntity.ok(storyListDtos);
     }
 
-    @GetMapping("/findStoryByCategory/{category}")
-    public ResponseEntity<List<StoryListDto>> findStoryByCategory(@PathVariable("category") Category category) throws StoryNotFoundException{
-        try{
-            List<Story> story = storyService.findStoryByCategory(category);
-            List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
-            return ResponseEntity.ok(storyListDtos);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+    @GetMapping("/findStoryByCategory")
+    public ResponseEntity<List<StoryListDto>> findStoryByCategory(@RequestParam("description") String description) {
+        List<Story> story = storyService.findStoryByCategory(description);
+        List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
+        return ResponseEntity.ok(storyListDtos);
     }
 
     @GetMapping("/findStoryByStatus/{status}")
     public ResponseEntity<List<StoryListDto>> findStoryByStatus(@PathVariable("status") StoryStatus status) throws  StoryNotFoundException{
-        try{
-            List<Story> story = storyService.findStoryByStatus(status);
-            List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
-            return ResponseEntity.ok(storyListDtos);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+        List<Story> story = storyService.findStoryByStatus(status);
+        List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
+        return ResponseEntity.ok(storyListDtos);
     }
 
     @PatchMapping("/updateStoryStatus")

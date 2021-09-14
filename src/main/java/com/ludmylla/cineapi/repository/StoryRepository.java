@@ -16,7 +16,9 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
             "where p.period_of_story= :periodOfStory group by s.id order by s.moment asc", nativeQuery = true)
     List<Story> findStoryByPeriod(@Param("periodOfStory") String periodOfStory);
 
-    @Query("select u from Story u where u.category= :category")
-    List<Story> findStoryByCategory(@Param("category") Category category);
+    @Query(value = "select s.*, c.description from Story as s join Category as c " +
+            "on s.category_id = c.id where c.description = :description " +
+            "group by s.id order by s.moment asc", nativeQuery = true)
+    List<Story> findStoryByCategory(@Param("description") String description);
 
 }

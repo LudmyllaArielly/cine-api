@@ -13,8 +13,7 @@ public interface StoryService {
     List<Story> findAll();
 
     List<Story> findStoryByPeriod(String periodOfStory);
-
-    List<Story> findStoryByCategory(Category category);
+    List<Story> findStoryByCategory(String description);
 
     List<Story> findStoryByStatus(StoryStatus storyStatus);
 

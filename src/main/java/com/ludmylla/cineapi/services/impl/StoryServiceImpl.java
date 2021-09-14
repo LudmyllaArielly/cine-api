@@ -6,8 +6,6 @@ import com.ludmylla.cineapi.model.Period;
 import com.ludmylla.cineapi.model.Story;
 import com.ludmylla.cineapi.model.User;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
-import com.ludmylla.cineapi.repository.CategoryRepository;
-import com.ludmylla.cineapi.repository.PeriodRepository;
 import com.ludmylla.cineapi.repository.StoryRepository;
 import com.ludmylla.cineapi.services.CategoryService;
 import com.ludmylla.cineapi.services.PeriodService;
@@ -50,23 +48,20 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
-    public List<Story> findStoryByPeriod(String periodOfStory) throws StoryNotFoundException{
-        List<Story> story = storyRepository.findStoryByPeriod(periodOfStory);
-        validStoryExist(story);
+    public List<Story> findStoryByPeriod(String periodOfStory){
+        List<Story> story = storyRepository.findStoryByPeriod(periodOfStory);;
         return story;
     }
 
     @Override
-    public List<Story> findStoryByCategory(Category category) throws StoryNotFoundException{
-        List<Story> story = storyRepository.findStoryByCategory(category);
-        validStoryExist(story);
+    public List<Story> findStoryByCategory(String description){
+        List<Story> story = storyRepository.findStoryByCategory(description);;
         return story;
     }
 
     @Override
-    public List<Story> findStoryByStatus(StoryStatus storyStatus) throws StoryNotFoundException{
+    public List<Story> findStoryByStatus(StoryStatus storyStatus){
         List<Story> story = storyRepository.findAll();
-        validStoryExist(story);
         return story.stream()
                 .filter(s -> s.getStoryStatus().equals(storyStatus))
                 .collect(Collectors.toList());
@@ -141,12 +136,6 @@ public class StoryServiceImpl implements StoryService {
     private Story findById(Long id) throws StoryNotFoundException{
         return storyRepository.findById(id)
                 .orElseThrow(() -> new StoryNotFoundException("Story does not exist."));
-    }
-
-    private void validStoryExist(List<Story> story){
-        if(story == null){
-            throw new StoryNotFoundException("Story does not exist");
-        }
     }
 
     private void getStoryUpdate(Story story) throws StoryNotFoundException{
