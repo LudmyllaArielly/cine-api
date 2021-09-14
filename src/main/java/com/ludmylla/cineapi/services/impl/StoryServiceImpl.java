@@ -1,9 +1,6 @@
 package com.ludmylla.cineapi.services.impl;
 
-import com.ludmylla.cineapi.exceptions.CategoryNotFoundException;
-import com.ludmylla.cineapi.exceptions.PeriodNotFoundException;
-import com.ludmylla.cineapi.exceptions.StoryNotFoundException;
-import com.ludmylla.cineapi.exceptions.UserNotFoundException;
+import com.ludmylla.cineapi.exceptions.*;
 import com.ludmylla.cineapi.model.Category;
 import com.ludmylla.cineapi.model.Period;
 import com.ludmylla.cineapi.model.Story;
@@ -78,7 +75,7 @@ public class StoryServiceImpl implements StoryService {
     @Modifying
     @Transactional
     @Override
-    public void updateStoryStatus(Story story) throws StoryNotFoundException{
+    public void updateStoryStatus(Story story) throws StoryWithWrongStatusException, StoryNotFoundException{
         validationsUpdateStatus(story);
         storyRepository.save(story);
     }
@@ -97,9 +94,11 @@ public class StoryServiceImpl implements StoryService {
         storyRepository.delete(story);
     }
 
-    private void validationsUpdateStatus(Story story) throws StoryNotFoundException{
-        getStory(story);
+    private void validationsUpdateStatus(Story story) throws StoryNotFoundException, StoryWithWrongStatusException{
+        verifyIfStoryExists(story);
         validUpdateStoryStatus(story);
+        getStory(story);
+
     }
 
     private void validationsCreateStory(Story story){
@@ -156,6 +155,12 @@ public class StoryServiceImpl implements StoryService {
         story.setUser(storyData.getUser());
     }
 
+    private void verifyIfStoryExists(Story story) throws StoryNotFoundException{
+        if(story == null){
+            throw new StoryNotFoundException("Story does not exist.");
+        }
+    }
+
     private Story getStory(Story story) throws StoryNotFoundException{
         Story storyGetData = findById(story.getId());
         story.setCategory(storyGetData.getCategory());
@@ -168,18 +173,18 @@ public class StoryServiceImpl implements StoryService {
         return story;
     }
 
-    private void validUpdateStoryStatus(Story story) throws IllegalArgumentException {
+    private void validUpdateStoryStatus(Story story) throws StoryWithWrongStatusException {
         Story stories = findById(story.getId());
         Boolean storyIsCreated = stories.getStoryStatus().equals(StoryStatus.CREATED);
         Boolean storyIsApproved = stories.getStoryStatus().equals(StoryStatus.APPROVED);
 
         if(storyIsCreated) {
             if(Utils.storyIsDifferentFromApprovedOrNotApproved(story)) {
-                throw new IllegalArgumentException("You cannot cancel or create an already created story. Available options: APPROVED, NOT_APPROVED");
+                throw new StoryWithWrongStatusException("You cannot cancel or create an already created story. Available options: APPROVED, NOT_APPROVED");
             }
         }else if(storyIsApproved) {
             if(Utils.storyIsDiferrentCFromCanceled(story)) {
-                throw new IllegalArgumentException("An approved story can only be canceled. Available options: CANCELED");
+                throw new StoryWithWrongStatusException("An approved story can only be canceled. Available options: CANCELED");
             }
         }
     }

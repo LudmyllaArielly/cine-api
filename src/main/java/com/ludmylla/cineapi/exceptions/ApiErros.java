@@ -27,6 +27,10 @@ public class ApiErros {
         this.erros = Arrays.asList(ex.getMessage());
     }
 
+    public ApiErros(StoryWithWrongStatusException ex) {
+        this.erros = Arrays.asList(ex.getMessage());
+    }
+
     public List<String> getErros() {
         return erros;
     }

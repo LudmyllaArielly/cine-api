@@ -52,4 +52,10 @@ public class ApplicationControllerAdvice {
         return new ApiErros(ex);
     }
 
+    @ExceptionHandler(StoryWithWrongStatusException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErros handleStoryWithWrongStatusException(StoryWithWrongStatusException ex) {
+        return new ApiErros(ex);
+    }
+
 }
