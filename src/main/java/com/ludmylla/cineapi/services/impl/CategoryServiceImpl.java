@@ -33,34 +33,30 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category findByCategory(String description) {
+    public Category findByCategory(String description) throws CategoryNotFoundException {
        Category category = categoryRepository.findByDescription(description);
-       verifyIfDescriptionOfCategoryExists(category);
+       verifyIfCategoryExists(category);
        return category;
     }
 
     @Override
-    public void updateCategory(Category category) {
+    public void updateCategory(Category category) throws CategoryNotFoundException {
         Category categoryId = findById(category.getId());
+        verifyIfCategoryExists(category);
         categoryRepository.save(category);
     }
 
     @Override
-    public void deleteCategory(Long id) {
+    public void deleteCategory(Long id) throws CategoryNotFoundException{
         Category category = findById(id);
+        verifyIfCategoryExists(category);
         categoryRepository.delete(category);
     }
 
-    private void verifyIfDescriptionOfCategoryExists(Category category){
+    private void verifyIfCategoryExists(Category category) throws CategoryNotFoundException{
         if(category == null){
             throw new CategoryNotFoundException("Category does not exist.");
         }
     }
 
-    private void verifyIfCategoryExits(Long id){
-        Category category = findById(id);
-        if(category == null){
-            throw new CategoryNotFoundException("Category does not exist.");
-        }
-    }
 }
