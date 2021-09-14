@@ -16,7 +16,7 @@ public class StoryCreateDtO {
 
     private UserCpfDto userCpfDto;
 
-    private Category category;
+    private CategoryCreateAndListDto categoryDto;
 
     private PeriodCreateAndListDto periodDto;
 

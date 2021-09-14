@@ -1,6 +1,5 @@
 package com.ludmylla.cineapi.model;
 
-import com.ludmylla.cineapi.model.enums.Category;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,7 +29,8 @@ public class Story {
     @JoinColumn(name = "PERIOD_ID")
     private Period period;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
     @Enumerated(EnumType.STRING)
