@@ -81,16 +81,10 @@ public class StoryResource {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateStory (@RequestBody StoryUpdateDto storyUpdateDto){
-        try {
-            Story story = StoryMapper.INSTANCE.toStory(storyUpdateDto);
-            storyService.updateStory(story);
-            return ResponseEntity.ok().build();
-        } catch (StoryNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
-        }
+    public ResponseEntity<?> updateStory (@Valid @RequestBody StoryUpdateDto storyUpdateDto){
+        Story story = StoryMapper.INSTANCE.toStory(storyUpdateDto);
+        storyService.updateStory(story);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

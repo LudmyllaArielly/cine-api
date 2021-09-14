@@ -108,7 +108,8 @@ public class StoryServiceImpl implements StoryService {
         setStory(story);
     }
 
-    private void validationsUpdateStory(Story story){
+    private void validationsUpdateStory(Story story) {
+        verifyIfStoryExists(story);
         getStoryUpdate(story);
         getPeriodStory(story);
         getCategoryStory(story);
@@ -156,6 +157,7 @@ public class StoryServiceImpl implements StoryService {
     }
 
     private void verifyIfStoryExists(Story story) throws StoryNotFoundException{
+        Story storyId = findById(story.getId());
         if(story == null){
             throw new StoryNotFoundException("Story does not exist.");
         }
