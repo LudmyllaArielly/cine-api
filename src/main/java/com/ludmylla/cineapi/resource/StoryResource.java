@@ -1,8 +1,6 @@
 package com.ludmylla.cineapi.resource;
 
-import com.ludmylla.cineapi.exceptions.StoryNotFoundException;
 import com.ludmylla.cineapi.mapper.StoryMapper;
-import com.ludmylla.cineapi.model.Category;
 import com.ludmylla.cineapi.model.Story;
 import com.ludmylla.cineapi.model.dto.StoryCreateDtO;
 import com.ludmylla.cineapi.model.dto.StoryListDto;
@@ -11,7 +9,6 @@ import com.ludmylla.cineapi.model.dto.StoryUpdateStatusDto;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
 import com.ludmylla.cineapi.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +37,8 @@ public class StoryResource {
         return ResponseEntity.ok(storyListDtos);
     }
 
-    @GetMapping("/findStoryByPeriod/{periodOfStory}")
-    public ResponseEntity<List<StoryListDto>> findStoryByPeriod(@PathVariable("periodOfStory") String periodOfStory) throws StoryNotFoundException {
+    @GetMapping("/findStoryByPeriod")
+    public ResponseEntity<List<StoryListDto>> findStoryByPeriod(@RequestParam("periodOfStory") String periodOfStory){
         List<Story> story = storyService.findStoryByPeriod(periodOfStory);
         List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
         return ResponseEntity.ok(storyListDtos);
@@ -54,8 +51,8 @@ public class StoryResource {
         return ResponseEntity.ok(storyListDtos);
     }
 
-    @GetMapping("/findStoryByStatus/{status}")
-    public ResponseEntity<List<StoryListDto>> findStoryByStatus(@PathVariable("status") StoryStatus status) throws  StoryNotFoundException{
+    @GetMapping("/findStoryByStatus")
+    public ResponseEntity<List<StoryListDto>> findStoryByStatus(@RequestParam("status") StoryStatus status){
         List<Story> story = storyService.findStoryByStatus(status);
         List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);
         return ResponseEntity.ok(storyListDtos);
