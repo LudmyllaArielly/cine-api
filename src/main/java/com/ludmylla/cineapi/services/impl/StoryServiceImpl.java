@@ -1,6 +1,9 @@
 package com.ludmylla.cineapi.services.impl;
 
+import com.ludmylla.cineapi.exceptions.CategoryNotFoundException;
+import com.ludmylla.cineapi.exceptions.PeriodNotFoundException;
 import com.ludmylla.cineapi.exceptions.StoryNotFoundException;
+import com.ludmylla.cineapi.exceptions.UserNotFoundException;
 import com.ludmylla.cineapi.model.Category;
 import com.ludmylla.cineapi.model.Period;
 import com.ludmylla.cineapi.model.Story;
@@ -9,6 +12,8 @@ import com.ludmylla.cineapi.model.enums.StoryStatus;
 import com.ludmylla.cineapi.repository.CategoryRepository;
 import com.ludmylla.cineapi.repository.PeriodRepository;
 import com.ludmylla.cineapi.repository.StoryRepository;
+import com.ludmylla.cineapi.services.CategoryService;
+import com.ludmylla.cineapi.services.PeriodService;
 import com.ludmylla.cineapi.services.StoryService;
 import com.ludmylla.cineapi.services.UserService;
 import com.ludmylla.cineapi.utils.Utils;
@@ -31,15 +36,14 @@ public class StoryServiceImpl implements StoryService {
     private UserService userService;
 
     @Autowired
-    private PeriodRepository periodRepository;
+    private PeriodService periodService;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     @Override
     public void createStory(Story story) {
         validationsCreateStory(story);
-        System.out.println(story.getImage());
         storyRepository.save(story);
     }
 
@@ -111,22 +115,20 @@ public class StoryServiceImpl implements StoryService {
         getCategoryStory(story);
     }
 
-    private Story getUserCpf(Story story){
+    private Story getUserCpf(Story story) throws UserNotFoundException{
         User user = userService.findByCpf(story.getUser().getCpf());
-        userService.validUserExist(user);
         story.setUser(user);
         return story;
     }
 
-    private Story getCategoryStory(Story story){
-        com.ludmylla.cineapi.model.Category category = categoryRepository.findByDescription(story.getCategory().getDescription());
+    private Story getCategoryStory(Story story) throws CategoryNotFoundException{
+        Category category = categoryService.findByCategory(story.getCategory().getDescription());
         story.setCategory(category);
         return story;
     }
 
-    private Story getPeriodStory(Story story){
-        Period period = periodRepository.findByPeriodOfStory(story.getPeriod().getPeriodOfStory());
-        validPeriodExist(period);
+    private Story getPeriodStory(Story story) throws PeriodNotFoundException{
+        Period period = periodService.findByPeriod(story.getPeriod().getPeriodOfStory());
         story.setPeriod(period);
         return story;
     }
@@ -144,12 +146,6 @@ public class StoryServiceImpl implements StoryService {
     private void validStoryExist(List<Story> story){
         if(story == null){
             throw new StoryNotFoundException("Story does not exist");
-        }
-    }
-
-    private void validPeriodExist(Period period){
-        if(period == null){
-            throw new IllegalArgumentException("Period does not exist");
         }
     }
 

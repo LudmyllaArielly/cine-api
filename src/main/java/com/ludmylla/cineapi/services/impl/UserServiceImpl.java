@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByCpf(String cpf){
+    public User findByCpf(String cpf) throws UserNotFoundException{
         User user = userRepository.findByCpf(cpf);
         validIfUserExists(user);
         return user;
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
     }
 
-    private void validIfUserExists(User user){
+    private void validIfUserExists(User user) throws UserNotFoundException{
         if(user == null){
             throw new UserNotFoundException("User does not exist.");
         }
