@@ -1,5 +1,6 @@
 package com.ludmylla.cineapi.services.impl;
 
+import com.ludmylla.cineapi.exceptions.CategoryNotFoundException;
 import com.ludmylla.cineapi.model.Category;
 import com.ludmylla.cineapi.repository.CategoryRepository;
 import com.ludmylla.cineapi.services.CategoryService;
@@ -26,9 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category findById(Long id) {
+    public Category findById(Long id) throws CategoryNotFoundException{
         return categoryRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new CategoryNotFoundException("Category does not exist"));
     }
 
     @Override
@@ -52,14 +53,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     private void verifyIfDescriptionOfCategoryExists(Category category){
         if(category == null){
-            System.out.println("error");
+            throw new CategoryNotFoundException("Category does not exist.");
         }
     }
 
     private void verifyIfCategoryExits(Long id){
         Category category = findById(id);
         if(category == null){
-            System.out.println("error");
+            throw new CategoryNotFoundException("Category does not exist.");
         }
     }
 }
