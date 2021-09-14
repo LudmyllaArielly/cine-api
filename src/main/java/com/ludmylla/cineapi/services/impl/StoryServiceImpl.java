@@ -89,8 +89,9 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
-    public void deleteStory(Long id){
+    public void deleteStory(Long id) throws StoryNotFoundException{
         Story story = findById(id);
+        verifyIfStoryExists(story);
         storyRepository.delete(story);
     }
 
@@ -98,7 +99,6 @@ public class StoryServiceImpl implements StoryService {
         verifyIfStoryExists(story);
         validUpdateStoryStatus(story);
         getStory(story);
-
     }
 
     private void validationsCreateStory(Story story){

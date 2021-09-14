@@ -89,12 +89,8 @@ public class StoryResource {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStory(@PathVariable("id") Long id){
-        try{
-            storyService.deleteStory(id);
-            return ResponseEntity.noContent().build();
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + e.getMessage());
-        }
+        storyService.deleteStory(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
