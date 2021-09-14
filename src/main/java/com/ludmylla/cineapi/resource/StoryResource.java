@@ -2,12 +2,12 @@ package com.ludmylla.cineapi.resource;
 
 import com.ludmylla.cineapi.exceptions.StoryNotFoundException;
 import com.ludmylla.cineapi.mapper.StoryMapper;
+import com.ludmylla.cineapi.model.Category;
 import com.ludmylla.cineapi.model.Story;
 import com.ludmylla.cineapi.model.dto.StoryCreateDtO;
 import com.ludmylla.cineapi.model.dto.StoryListDto;
 import com.ludmylla.cineapi.model.dto.StoryUpdateDto;
 import com.ludmylla.cineapi.model.dto.StoryUpdateStatusDto;
-import com.ludmylla.cineapi.model.enums.Category;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
 import com.ludmylla.cineapi.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class StoryResource {
     }
 
     @GetMapping("/findStoryByCategory/{category}")
-    public ResponseEntity<List<StoryListDto>> findStoryByCategory(@PathVariable("category")Category category) throws StoryNotFoundException{
+    public ResponseEntity<List<StoryListDto>> findStoryByCategory(@PathVariable("category") Category category) throws StoryNotFoundException{
         try{
             List<Story> story = storyService.findStoryByCategory(category);
             List<StoryListDto> storyListDtos = StoryMapper.INSTANCE.toListDto(story);

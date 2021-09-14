@@ -1,6 +1,5 @@
 package com.ludmylla.cineapi.model.dto;
 
-import com.ludmylla.cineapi.model.enums.Category;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

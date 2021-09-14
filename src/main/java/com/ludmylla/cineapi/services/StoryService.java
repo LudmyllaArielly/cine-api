@@ -1,7 +1,7 @@
 package com.ludmylla.cineapi.services;
 
+import com.ludmylla.cineapi.model.Category;
 import com.ludmylla.cineapi.model.Story;
-import com.ludmylla.cineapi.model.enums.Category;
 import com.ludmylla.cineapi.model.enums.StoryStatus;
 
 import java.util.List;

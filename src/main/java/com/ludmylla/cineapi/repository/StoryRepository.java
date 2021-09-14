@@ -1,7 +1,7 @@
 package com.ludmylla.cineapi.repository;
 
+import com.ludmylla.cineapi.model.Category;
 import com.ludmylla.cineapi.model.Story;
-import com.ludmylla.cineapi.model.enums.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
