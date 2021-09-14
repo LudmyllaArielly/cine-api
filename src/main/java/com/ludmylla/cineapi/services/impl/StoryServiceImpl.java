@@ -168,7 +168,7 @@ public class StoryServiceImpl implements StoryService {
         return story;
     }
 
-    private void validUpdateStoryStatus(Story story) {
+    private void validUpdateStoryStatus(Story story) throws IllegalArgumentException {
         Story stories = findById(story.getId());
         Boolean storyIsCreated = stories.getStoryStatus().equals(StoryStatus.CREATED);
         Boolean storyIsApproved = stories.getStoryStatus().equals(StoryStatus.APPROVED);

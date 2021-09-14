@@ -75,13 +75,9 @@ public class StoryResource {
 
     @PatchMapping("/updateStoryStatus")
     public ResponseEntity<?> updateStoryStatus(@RequestBody StoryUpdateStatusDto storyUpdateStatusDto){
-        try{
-            Story story = StoryMapper.INSTANCE.toStory(storyUpdateStatusDto);
-            storyService.updateStoryStatus(story);
-            return ResponseEntity.noContent().build();
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+           Story story = StoryMapper.INSTANCE.toStory(storyUpdateStatusDto);
+           storyService.updateStoryStatus(story);
+           return ResponseEntity.noContent().build();
     }
 
     @PutMapping
