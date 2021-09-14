@@ -39,6 +39,13 @@ public class PeriodResource {
         return ResponseEntity.ok(periodDto);
     }
 
+    @GetMapping("/{periodOfStory}")
+    public ResponseEntity<?> findByPeriod(@RequestParam("periodOfStory") String periodOfStory){
+        Period period = periodService.findByPeriod(periodOfStory);
+        PeriodCreateAndListDto periodCreateAndListDto = PeriodMapper.INSTANCE.toDto(period);
+        return ResponseEntity.ok(periodCreateAndListDto);
+    }
+
     @PutMapping
     public ResponseEntity<?> updatePeriod(@Valid @RequestBody PeriodUpdateDto periodUpdateDto){
         Period period = PeriodMapper.INSTANCE.toPeriod(periodUpdateDto);

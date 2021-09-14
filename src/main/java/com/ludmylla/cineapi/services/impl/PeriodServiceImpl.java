@@ -27,6 +27,13 @@ public class PeriodServiceImpl implements PeriodService {
     }
 
     @Override
+    public Period findByPeriod(String periodOfStory) throws PeriodNotFoundException{
+        Period period = periodRepository.findByPeriodOfStory(periodOfStory);
+        verifyIfPeriodExists(period);
+        return period;
+    }
+
+    @Override
     public Period findById(Long id) throws PeriodNotFoundException {
         return periodRepository.findById(id)
                 .orElseThrow(() -> new PeriodNotFoundException("Period does not exist"));
@@ -34,21 +41,19 @@ public class PeriodServiceImpl implements PeriodService {
 
     @Override
     public void updatePeriod(Period period) throws PeriodNotFoundException{
-        verifyIfPeriodExists(period.getId());
         Period periodExist = findById(period.getId());
+        verifyIfPeriodExists(period);
         periodRepository.save(period);
     }
 
     @Override
-    public void deletePeriod(Long id) {
-        verifyIfPeriodExists(id);
+    public void deletePeriod(Long id) throws PeriodNotFoundException{
         Period period = findById(id);
+        verifyIfPeriodExists(period);
         periodRepository.delete(period);
-
     }
 
-    private void verifyIfPeriodExists(Long id){
-        Period period = findById(id);
+    private void verifyIfPeriodExists(Period period){
         if(period == null){
             throw new PeriodNotFoundException("Period does not exist");
         }

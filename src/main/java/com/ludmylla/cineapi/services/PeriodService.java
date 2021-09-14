@@ -10,6 +10,8 @@ public interface PeriodService {
 
     List<Period> findAll();
 
+    Period findByPeriod (String periodOfStory);
+
     Period findById(Long id);
 
     void updatePeriod(Period period);
