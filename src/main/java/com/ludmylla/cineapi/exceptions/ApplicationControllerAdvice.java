@@ -1,5 +1,6 @@
 package com.ludmylla.cineapi.exceptions;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,9 +59,9 @@ public class ApplicationControllerAdvice {
         return new ApiErros(ex);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErros handleIllegalArgumentExeption(IllegalArgumentException ex) {
+    public ApiErros handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         return new ApiErros(ex);
     }
 

@@ -1,5 +1,7 @@
 package com.ludmylla.cineapi.exceptions;
 
+import org.springframework.dao.DataIntegrityViolationException;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,8 +33,8 @@ public class ApiErros {
         this.erros = Arrays.asList(ex.getMessage());
     }
 
-    public ApiErros(IllegalArgumentException ex) {
-        this.erros = Arrays.asList(ex.getMessage());
+    public ApiErros(DataIntegrityViolationException ex) {
+        this.erros = Arrays.asList("Category already exist!");
     }
 
     public List<String> getErros() {
