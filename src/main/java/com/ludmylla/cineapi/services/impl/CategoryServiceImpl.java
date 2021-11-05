@@ -36,7 +36,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findByCategory(String description) throws CategoryNotFoundException {
        Category category = categoryRepository.findByDescription(description);
-       verifyIfCategoryExists(category);
        return category;
     }
 
