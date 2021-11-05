@@ -58,4 +58,10 @@ public class ApplicationControllerAdvice {
         return new ApiErros(ex);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErros handleIllegalArgumentExeption(IllegalArgumentException ex) {
+        return new ApiErros(ex);
+    }
+
 }

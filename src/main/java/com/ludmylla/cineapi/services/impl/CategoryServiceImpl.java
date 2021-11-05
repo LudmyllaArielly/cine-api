@@ -41,6 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateCategory(Category category) throws CategoryNotFoundException {
+        verifyIfDescriptionOfCategoryExists(category.getDescription());
         Category categoryId = findById(category.getId());
         verifyIfCategoryExists(category);
         categoryRepository.save(category);
@@ -59,14 +60,13 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    private Category verifyIfDescriptionOfCategoryExists(String description){
+    private void verifyIfDescriptionOfCategoryExists(String description){
         Category category = categoryRepository.findByDescription(description);
-        Boolean isCategoryAlreadyExist = category.getDescription().isEmpty();
-
-        if(!isCategoryAlreadyExist){
+        if(category != null){
             throw new IllegalArgumentException("A category already exists! ");
+        }else {
+            return;
         }
-        return category;
     }
 
 }
