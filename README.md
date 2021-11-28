@@ -69,6 +69,48 @@ Exemplo de endereço com swagger: http://localhost:8080/swagger-ui.html#/
 | GET    | /users/findUserByEmail/{email} | Busca conta por tipo da conta e tipo do valor |
 
 
+### História
+
+| Method | Url                            | Description                              |
+| ------ | ------------------------------ | ---------------------------------------- |
+| GET    | /stories                       | Lista todas histórias                    |
+| POST   | /stories                       | Cria história                            |
+| PUT    | /stories                       | Atualiza história                        |
+| GET    | /stories/findStoryByCategory   | Busca a história por categoria           |
+| GET    | /stories/findStoryByPeriod     | Busca a história por período             |
+| GET    | /stories/findStoryByStatus     | Busca a história por status              |
+| PATCH  | /stories/updateStoryStatus     | Atualiza o status da história            |
+| DELETE | /stories/{id}                  | Deleta história                          |
+
+
+### Categoria
+
+| Method | Url                            | Description                              |
+| ------ | ------------------------------ | ---------------------------------------- |
+| GET    | /categories                    | Lista todas categorias                   |
+| POST   | /categories                    | Cria categoria                           |
+| PUT    | /categories                    | Atualiza categoria                       |
+| GET    | /categories/{description}      | Busca categoria pela descrição           |
+| DELETE | /categories/{id}               | Deleta categoria                         |
+
+
+### Período
+
+| Method | Url                            | Description                              |
+| ------ | ------------------------------ | ---------------------------------------- |
+| GET    | /periods                       | Lista todos períodos                     |
+| POST   | /periods                       | Cria período                             |
+| PUT    | /periods                       | Atualiza período                         |
+| GET    | /periods/{periodOfStory}       | Busca périodo                            |
+| DELETE | /periods/{id}                  | Deleta período                           |
+
+
+### Upload S3
+
+| Method | Url                            | Description                              |
+| ------ | ------------------------------ | ---------------------------------------- |
+| POST   | /uploads/{file}                | Realiza uploads de imagens para AWS      |
+
 
 ## Exemplo de corpo de solicitações JSON válidos
 
@@ -98,7 +140,7 @@ Exemplo de endereço com swagger: http://localhost:8080/swagger-ui.html#/
 }
 ```
 
-##### Atualiza Usuário
+##### Atualiza usuário
 ```json
 {
   "city": "Anápolis",
@@ -114,6 +156,78 @@ Exemplo de endereço com swagger: http://localhost:8080/swagger-ui.html#/
     }
   ],
   "state": "GO"
+}
+```
+
+##### Cria história
+```json
+{
+  "audio": "https://audiosupload.com/audioestoriacultura.mp3",
+  "categoryDto": {
+    "description": "Cultura"
+  },
+  "description": "Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um texto randômico.",
+  "image": "https://bucket.s3.us-east-2.amazonaws.com/image-241327509785422112079922248.jpg",
+  "periodDto": {
+    "periodOfStory": "1930-1960"
+  },
+  "userCpfDto": {
+    "cpf": "78985245632"
+  }
+}
+```
+
+##### Atualiza história
+```json
+{
+  "audio": "https://audiosupload.com/audioestoriacultura.mp3",
+  "categoryDto": {
+    "description": "Cultura"
+  },
+  "description": "Ao contrário do que se acredita, Lorem Ipsum não é simplesmente um texto randômico.",
+  "id": 1,
+  "image": "https://bucket.s3.us-east-2.amazonaws.com/image-241327509785422112079922248.jpg",
+  "periodDto": {
+    "periodOfStory": "1930-1960"
+  }
+}
+```
+
+##### Atualiza status da história
+```json
+{
+  "id": 1,
+  "status": "CREATED"
+}
+```
+
+##### Cria categoria
+```json
+{
+  "description": "Cultura"
+}
+```
+
+##### Atualiza categoria
+```json
+{
+  "id": 1,
+  "description": "Cultura"
+}
+```
+
+##### Cria período
+```json
+{
+  "periodOfStory": "1930-1960"
+}
+```
+
+##### Atualiza período
+```json
+{
+  "id": 1,
+  "periodOfStory": "1930-1960"
 }
 ```
 
