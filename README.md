@@ -1,5 +1,5 @@
 # Cine Api
-*Esse projeto faz parte de um desafio, que consiste em cria um sistema do Cine Theatro Brasil Vallourec que permita que os visitantes conheça melhor os espaços do Cine Brasil e também  coletar estórias que viveram relacionadas ao cinema.*
+*Esse projeto faz parte de um desafio, que consiste em cria um sistema do Cine Theatro Brasil Vallourec que permita que os visitantes conheça melhor os espaços do Cine Brasil e também coletar histórias que viveram relacionadas ao cinema.*
 
 ## Tecnologias usadas
 
