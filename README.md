@@ -232,6 +232,6 @@ Exemplo de endereço com swagger: http://localhost:8080/swagger-ui.html#/
 ```
 
 
-#####  :warning: A aplicação ainda está em progresso.
+
 
  
